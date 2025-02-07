@@ -8,6 +8,7 @@ use std::ptr::NonNull;
 use std::vec::*;
 
 use std::cmp::Ordering;
+use std::cmp::PartialOrd;
 
 #[derive(Debug)]
 struct Node<T> {
@@ -67,8 +68,16 @@ impl<T> LinkedList<T> {
             },
         }
     }
-    pub fn merge(list_a: LinkedList<T>, list_b: LinkedList<T>) -> Self {
-        let mut res_start: Option<NonNull<Node<T>>> = None;
+}
+
+impl<T: PartialOrd> LinkedList<T> {
+    pub fn merge(mut list_a: LinkedList<T>, mut list_b: LinkedList<T>) -> Self {
+        let res = LinkedList {
+            length: list_a.length + list_b.length,
+            start: None,
+            end: None,
+        };
+        let mut res_start: &Option<NonNull<Node<T>>> = &mut res.start;
         let mut res_ptr: &Option<NonNull<Node<T>>> = &mut res_start;
 
         let mut ptr_1 = list_a.start;
@@ -76,61 +85,47 @@ impl<T> LinkedList<T> {
         let mut a: T;
         let mut b: T;
 
-        // while ptr_1 != None && ptr_2 != None {
-        //     let a = (*ptr_1.as_ptr()).val;
-        //     let b = (*ptr_2.as_ptr()).val;
-        //     match a >= b {
-        //         true => {
-        //             (*res_ptr.as_ptr()).next = ptr_2;
-        //             ptr_2 = (*ptr_2.as_ptr()).next;
-        //         }
-        //         false => {
-        //             (*res_ptr.as_ptr()).next = ptr_1;
-        //             ptr_1 = (*ptr_1.as_ptr()).next;
-        //         }
-        //     }
-        // }
         while ptr_1 != None && ptr_2 != None {
             match (ptr_1, ptr_2) {
                 (Some(p1), Some(p2)) => {
-                    a = (*p1.as_ptr()).val;
-                    b = (*p2.as_ptr()).val;
+                    a = unsafe { (*p1.as_ptr()).val };
+                    b = unsafe { (*p2.as_ptr()).val };
                     if a <= b {
                         match res_ptr {
-                            None => res_ptr = ptr_1,
-                            Some(res_p) => (*res_p.as_ptr()).next = ptr_1,
+                            None => {}
+                            Some(res_p) => unsafe { (*res_p.as_ptr()).next = ptr_1 },
                         }
-                        ptr_1 = (*ptr_1.unwrap().as_ptr()).next;
+                        res_ptr = &ptr_1;
+                        unsafe { ptr_1 = (*ptr_1.unwrap().as_ptr()).next };
                     } else {
                         match res_ptr {
-                            None => res_ptr = ptr_2,
-                            Some(res_p) => (*res_p.as_ptr()).next = ptr_2,
+                            None => {}
+                            Some(res_p) => unsafe { (*res_p.as_ptr()).next = ptr_2 },
                         }
-                        ptr_1 = (*ptr_1.unwrap().as_ptr()).next;
+                        res_ptr = &ptr_2;
+                        unsafe { ptr_2 = (*ptr_2.unwrap().as_ptr()).next };
                     }
                 }
+                _ => {}
             }
         }
         while ptr_1 != None {
             match res_ptr {
-                None => res_ptr = ptr_1,
-                Some(res_p) => (*res_p.as_ptr()).next = ptr_1,
+                None => {}
+                Some(res_p) => unsafe { (*res_p.as_ptr()).next = ptr_1 },
             }
-            ptr_1 = (*ptr_1.unwrap().as_ptr()).next;
+            res_ptr = &ptr_1;
+            unsafe { ptr_1 = (*ptr_1.unwrap().as_ptr()).next };
         }
         while ptr_2 != None {
             match res_ptr {
-                None => res_ptr = ptr_2,
-                Some(res_p) => (*res_p.as_ptr()).next = ptr_2,
+                None => {}
+                Some(res_p) => unsafe { (*res_p.as_ptr()).next = ptr_2 },
             }
-            ptr_2 = (*ptr_2.unwrap().as_ptr()).next;
+            res_ptr = &ptr_2;
+            unsafe { ptr_2 = (*ptr_2.unwrap().as_ptr()).next };
         }
-
-        LinkedList {
-            length: list_a.length + list_b.length,
-            start: res_start,
-            end: res_ptr,
-        }
+        res
     }
 }
 

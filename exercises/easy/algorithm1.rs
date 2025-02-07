@@ -98,13 +98,13 @@ impl<T> LinkedList<T> {
                     if a <= b {
                         match res_ptr {
                             None => res_ptr = ptr_1,
-                            Some(res_p) => (*res_p.as_ptr).next = ptr_1,
+                            Some(res_p) => (*res_p.as_ptr()).next = ptr_1,
                         }
                         ptr_1 = (*ptr_1.unwrap().as_ptr()).next;
                     } else {
                         match res_ptr {
                             None => res_ptr = ptr_2,
-                            Some(res_p) => (*res_p.as_ptr).next = ptr_2,
+                            Some(res_p) => (*res_p.as_ptr()).next = ptr_2,
                         }
                         ptr_1 = (*ptr_1.unwrap().as_ptr()).next;
                     }
@@ -114,14 +114,14 @@ impl<T> LinkedList<T> {
         while ptr_1 != None {
             match res_ptr {
                 None => res_ptr = ptr_1,
-                Some(res_p) => (*res_p.as_ptr).next = ptr_1,
+                Some(res_p) => (*res_p.as_ptr()).next = ptr_1,
             }
             ptr_1 = (*ptr_1.unwrap().as_ptr()).next;
         }
         while ptr_2 != None {
             match res_ptr {
                 None => res_ptr = ptr_2,
-                Some(res_p) => (*res_p.as_ptr).next = ptr_2,
+                Some(res_p) => (*res_p.as_ptr()).next = ptr_2,
             }
             ptr_2 = (*ptr_2.unwrap().as_ptr()).next;
         }

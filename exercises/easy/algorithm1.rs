@@ -73,28 +73,57 @@ impl<T> LinkedList<T> {
 
         let mut ptr_1 = list_a.start;
         let mut ptr_2 = list_b.start;
+        let mut a: T;
+        let mut b: T;
 
+        // while ptr_1 != None && ptr_2 != None {
+        //     let a = (*ptr_1.as_ptr()).val;
+        //     let b = (*ptr_2.as_ptr()).val;
+        //     match a >= b {
+        //         true => {
+        //             (*res_ptr.as_ptr()).next = ptr_2;
+        //             ptr_2 = (*ptr_2.as_ptr()).next;
+        //         }
+        //         false => {
+        //             (*res_ptr.as_ptr()).next = ptr_1;
+        //             ptr_1 = (*ptr_1.as_ptr()).next;
+        //         }
+        //     }
+        // }
         while ptr_1 != None && ptr_2 != None {
-            let a = (*ptr_1.as_ptr()).val;
-            let b = (*ptr_2.as_ptr()).val;
-            match a >= b {
-                true => {
-                    (**res_ptr.as_ptr()).next = ptr_2;
-                    ptr_2 = (*ptr_2.as_ptr()).next;
-                }
-                false => {
-                    (**res_ptr.as_ptr()).next = ptr_1;
-                    ptr_1 = (*ptr_1.as_ptr()).next;
+            match (ptr_1, ptr_2) {
+                (Some(p1), Some(p2)) => {
+                    a = (*p1.as_ptr()).val;
+                    b = (*p2.as_ptr()).val;
+                    if a <= b {
+                        match res_ptr {
+                            None => res_ptr = ptr_1,
+                            Some(res_p) => (*res_p.as_ptr).next = ptr_1,
+                        }
+                        ptr_1 = (*ptr_1.unwrap().as_ptr()).next;
+                    } else {
+                        match res_ptr {
+                            None => res_ptr = ptr_2,
+                            Some(res_p) => (*res_p.as_ptr).next = ptr_2,
+                        }
+                        ptr_1 = (*ptr_1.unwrap().as_ptr()).next;
+                    }
                 }
             }
         }
         while ptr_1 != None {
-            (**res_ptr.as_ptr()).next = ptr_1;
-            ptr_1 = (*ptr_1.as_ptr()).next;
+            match res_ptr {
+                None => res_ptr = ptr_1,
+                Some(res_p) => (*res_p.as_ptr).next = ptr_1,
+            }
+            ptr_1 = (*ptr_1.unwrap().as_ptr()).next;
         }
         while ptr_2 != None {
-            (**res_ptr.as_ptr()).next = ptr_2;
-            ptr_2 = (*ptr_1.as_ptr()).next;
+            match res_ptr {
+                None => res_ptr = ptr_2,
+                Some(res_p) => (*res_p.as_ptr).next = ptr_2,
+            }
+            ptr_2 = (*ptr_2.unwrap().as_ptr()).next;
         }
 
         LinkedList {

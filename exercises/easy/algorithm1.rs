@@ -5,9 +5,7 @@
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
-use std::vec::*;
 
-use std::cmp::Ordering;
 use std::cmp::PartialOrd;
 
 #[derive(Debug)]

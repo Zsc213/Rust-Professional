@@ -98,7 +98,7 @@ impl<T: Copy + PartialOrd> LinkedList<T> {
         while j < jl {
             let list_b_node = *(list_b.get(j as i32).unwrap());
             res.add(list_b_node);
-            i += 1;
+            j += 1;
         }
         res
     }

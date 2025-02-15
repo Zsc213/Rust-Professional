@@ -77,53 +77,30 @@ impl<T: PartialOrd> LinkedList<T> {
             start: None,
             end: None,
         };
-        let mut res_start: &Option<NonNull<Node<T>>> = &mut res.start;
-        let mut res_ptr: &Option<NonNull<Node<T>>> = &mut res_start;
-
-        let mut ptr_1 = list_a.start;
-        let mut ptr_2 = list_b.start;
-        let mut a: T;
-        let mut b: T;
-
-        while ptr_1 != None && ptr_2 != None {
-            match (ptr_1, ptr_2) {
-                (Some(p1), Some(p2)) => {
-                    a = unsafe { (*p1.as_ptr()).val };
-                    b = unsafe { (*p2.as_ptr()).val };
-                    if a <= b {
-                        match res_ptr {
-                            None => {}
-                            Some(res_p) => unsafe { (*res_p.as_ptr()).next = ptr_1 },
-                        }
-                        res_ptr = &ptr_1;
-                        unsafe { ptr_1 = (*ptr_1.unwrap().as_ptr()).next };
-                    } else {
-                        match res_ptr {
-                            None => {}
-                            Some(res_p) => unsafe { (*res_p.as_ptr()).next = ptr_2 },
-                        }
-                        res_ptr = &ptr_2;
-                        unsafe { ptr_2 = (*ptr_2.unwrap().as_ptr()).next };
-                    }
-                }
-                _ => {}
+        let i: u32 = 0;
+        let j: u32 = 0;
+        let il = list_a.length;
+        let jl = list_b.length;
+        while i < il && j < jl {
+            let list_a_node = list_a.get(i).unwrap();
+            let list_b_node = list_b.get(j).unwrap();
+            if list_a_node <= list_b_node {
+                res.add(*list_a_node);
+                i += 1;
+            } else {
+                res.add(*list_b_node);
+                j += 1;
             }
         }
-        while ptr_1 != None {
-            match res_ptr {
-                None => {}
-                Some(res_p) => unsafe { (*res_p.as_ptr()).next = ptr_1 },
-            }
-            res_ptr = &ptr_1;
-            unsafe { ptr_1 = (*ptr_1.unwrap().as_ptr()).next };
+        while i < il {
+            let list_a_node = list_a.get(i).unwrap();
+            res.add(*list_a_node);
+            i += 1;
         }
-        while ptr_2 != None {
-            match res_ptr {
-                None => {}
-                Some(res_p) => unsafe { (*res_p.as_ptr()).next = ptr_2 },
-            }
-            res_ptr = &ptr_2;
-            unsafe { ptr_2 = (*ptr_2.unwrap().as_ptr()).next };
+        while j < jl {
+            let list_b_node = list_b.get(j).unwrap();
+            res.add(*list_b_node);
+            i += 1;
         }
         res
     }

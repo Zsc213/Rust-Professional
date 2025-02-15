@@ -70,36 +70,36 @@ impl<T> LinkedList<T> {
     }
 }
 
-impl<T: PartialOrd> LinkedList<T> {
+impl<T: Copy + PartialOrd> LinkedList<T> {
     pub fn merge(mut list_a: LinkedList<T>, mut list_b: LinkedList<T>) -> Self {
-        let res = LinkedList {
+        let mut res = LinkedList {
             length: list_a.length + list_b.length,
             start: None,
             end: None,
         };
-        let i: u32 = 0;
-        let j: u32 = 0;
+        let mut i: u32 = 0;
+        let mut j: u32 = 0;
         let il = list_a.length;
         let jl = list_b.length;
         while i < il && j < jl {
-            let list_a_node = list_a.get(i).unwrap();
-            let list_b_node = list_b.get(j).unwrap();
+            let list_a_node = *(list_a.get(i as i32).unwrap());
+            let list_b_node = *(list_b.get(j as i32).unwrap());
             if list_a_node <= list_b_node {
-                res.add(*list_a_node);
+                res.add(list_a_node);
                 i += 1;
             } else {
-                res.add(*list_b_node);
+                res.add(list_b_node);
                 j += 1;
             }
         }
         while i < il {
-            let list_a_node = list_a.get(i).unwrap();
-            res.add(*list_a_node);
+            let list_a_node = *(list_a.get(i as i32).unwrap());
+            res.add(list_a_node);
             i += 1;
         }
         while j < jl {
-            let list_b_node = list_b.get(j).unwrap();
-            res.add(*list_b_node);
+            let list_b_node = *(list_b.get(j as i32).unwrap());
+            res.add(list_b_node);
             i += 1;
         }
         res

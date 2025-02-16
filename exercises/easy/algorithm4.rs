@@ -48,28 +48,32 @@ where
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
         //TODO
-        let res_node = TreeNode {
-            value,
-            left: None,
-            right: None,
-        };
+
         if self.root.is_none() {
-            self.root = Some(Box::new(res_node));
+            self.root = Some(Box::new(TreeNode::new(value)));
+            return;
         }
-        let mut temp_ptr = Box::<TreeNode<T>>::as_ptr(&self.root.unwrap());
-        while temp_ptr.is_some() {
-            if value <= (*temp_ptr.unwrap()).value {
-                if (*temp_ptr.unwrap()).left.is_some() {
-                    temp_ptr = (*temp_ptr.unwrap()).left;
-                } else {
-                    (*temp_ptr.unwrap()).left = Some(Box::new(res_node));
+
+        let mut temp_ptr = self.root.as_mut().unwrap();
+        loop {
+            if value < temp_ptr.value {
+                match temp_ptr.left {
+                    Some(_) => temp_ptr = temp_ptr.left.as_mut().unwrap(),
+                    None => {
+                        temp_ptr.left = Some(Box::new(TreeNode::new(value)));
+                        break;
+                    }
+                }
+            } else if value > temp_ptr.value {
+                match temp_ptr.right {
+                    Some(_) => temp_ptr = temp_ptr.right.as_mut().unwrap(),
+                    None => {
+                        temp_ptr.right = Some(Box::new(TreeNode::new(value)));
+                        break;
+                    }
                 }
             } else {
-                if (*temp_ptr.unwrap()).right.is_some() {
-                    temp_ptr = (*temp_ptr.unwrap()).right;
-                } else {
-                    (*temp_ptr.unwrap()).right = Some(Box::new(res_node));
-                }
+                break;
             }
         }
     }
@@ -77,16 +81,25 @@ where
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
         //TODO
+        if self.root.is_none() {
+            return false;
+        }
         let mut res = false;
-        let mut temp_ptr = Box::<TreeNode<T>>::as_ptr(&self.root.unwrap());
-        while temp_ptr.is_some() {
-            if value == (*temp_ptr.unwrap()).value {
-                res == true;
+        let mut temp_ptr = self.root.as_ref().unwrap();
+        loop {
+            if value == temp_ptr.value {
+                res = true;
                 break;
-            } else if value < (*temp_ptr.unwrap()).value {
-                temp_ptr = (*temp_ptr.unwrap()).left;
+            } else if value < temp_ptr.value {
+                if temp_ptr.left.as_ref().is_none() {
+                    break;
+                }
+                temp_ptr = temp_ptr.left.as_ref().unwrap();
             } else {
-                temp_ptr = (*temp_ptr.unwrap()).right;
+                if temp_ptr.right.as_ref().is_none() {
+                    break;
+                }
+                temp_ptr = temp_ptr.right.as_ref().unwrap();
             }
         }
         res

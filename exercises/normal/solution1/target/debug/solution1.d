@@ -1,0 +1,1 @@
+/home/zsc/Project/rust/Rust-Professional/exercises/normal/solution1/target/debug/solution1: /home/zsc/Project/rust/Rust-Professional/exercises/normal/solution1/src/count_distinct.rs /home/zsc/Project/rust/Rust-Professional/exercises/normal/solution1/src/main.rs

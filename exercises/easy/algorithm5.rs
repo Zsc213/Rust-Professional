@@ -33,21 +33,7 @@ impl Graph {
         // let j: i32;
 
         let mut temp: usize = 0;
-        // for i in 0..self.adj.len() {
-        //     if visit_order.contains(&(i as usize)) {
-        //         continue;
-        //     }
-        //     que.push_back(i as usize);
-        //     while !que.is_empty() {
-        //         temp = que.pop_front().unwrap();
-        //         visit_order.push(temp);
-        //         for j in self.adj[temp].iter().cloned() {
-        //             if !visit_order.contains(&(j as usize)) {
-        //                 que.push_back(j as usize);
-        //             }
-        //         }
-        //     }
-        // }
+
         que.push_back(start);
         visit_order.push(start);
         while !que.is_empty() {

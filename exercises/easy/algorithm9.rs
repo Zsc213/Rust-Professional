@@ -52,7 +52,7 @@ where
         }
         let p_idx = self.parent_idx(idx);
         if !(self.comparator)(&self.items[p_idx], &self.items[idx]) {
-            // 不满足平衡条件
+            //
             self.swap(p_idx, idx);
             self.up_float(p_idx);
         }

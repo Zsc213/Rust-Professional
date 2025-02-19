@@ -1,8 +1,7 @@
 /*
-	graph
-	This problem requires you to implement a basic graph functio
+    graph
+    This problem requires you to implement a basic graph functio
 */
-
 
 use std::collections::{HashMap, HashSet};
 use std::fmt;
@@ -30,6 +29,26 @@ impl Graph for UndirectedGraph {
     }
     fn add_edge(&mut self, edge: (&str, &str, i32)) {
         //TODO
+        //let temp_edge = (edge.1.clone(), edge.0.clone(), edge.2.clone());
+        //<Self as Graph>::add_edge(self, edge);
+        //<Self as Graph>::add_edge(self, temp_edge);
+
+        if !self.adjacency_table().contains_key(edge.0) {
+            self.adjacency_table_mutable()
+                .insert(String::from(edge.0), vec![(String::from(edge.1), edge.2)]);
+        } else {
+            if let Some(mut edges) = self.adjacency_table_mutable().get_mut(edge.0) {
+                edges.push((String::from(edge.1), edge.2));
+            }
+        }
+        if !self.adjacency_table().contains_key(edge.1) {
+            self.adjacency_table_mutable()
+                .insert(String::from(edge.1), vec![(String::from(edge.0), edge.2)]);
+        } else {
+            if let Some(mut edges) = self.adjacency_table_mutable().get_mut(edge.1) {
+                edges.push((String::from(edge.0), edge.2));
+            }
+        }
     }
 }
 pub trait Graph {
@@ -38,10 +57,26 @@ pub trait Graph {
     fn adjacency_table(&self) -> &HashMap<String, Vec<(String, i32)>>;
     fn add_node(&mut self, node: &str) -> bool {
         //TODO
-		true
+        let node_add = String::from(node);
+        if self.adjacency_table().contains_key(node) {
+            return false;
+        } else {
+            let vec_init: Vec<(String, i32)> = vec![];
+            self.adjacency_table_mutable().insert(node_add, vec_init);
+            return true;
+        }
     }
     fn add_edge(&mut self, edge: (&str, &str, i32)) {
         //TODO
+        let node_edge = String::from(edge.0);
+        if !self.adjacency_table().contains_key(edge.0) {
+            self.adjacency_table_mutable()
+                .insert(node_edge, vec![(String::from(edge.1), edge.2)]);
+        } else {
+            if let Some(mut edges) = self.adjacency_table_mutable().get_mut(edge.0) {
+                edges.push((String::from(edge.1), edge.2));
+            }
+        }
     }
     fn contains(&self, node: &str) -> bool {
         self.adjacency_table().get(node).is_some()

@@ -9,25 +9,39 @@
     Hint: Consider using matrix exponentiation to solve the problem in O(log n) time complexity.
 */
 
-use ndarray::arr2;
 use std::fmt::{self, Display, Formatter};
+
+fn ma(m: &mut Vec<Vec<i32>>, n: &Vec<Vec<i32>>) {
+    let temp = m.clone();
+    m[0][0] = temp[0][0] * n[0][0] + temp[0][1] * n[1][0];
+    m[0][1] = temp[0][0] * n[0][1] + temp[0][1] * n[1][1];
+    m[1][0] = temp[1][0] * n[0][0] + temp[1][1] * n[1][0];
+    m[1][1] = temp[1][0] * n[0][1] + temp[1][1] * n[1][1];
+}
+
+fn mb(m: &mut Vec<Vec<i32>>) {
+    let temp = m.clone();
+    m[0][0] = temp[0][0] * temp[0][0] + temp[0][1] * temp[1][0];
+    m[0][1] = temp[0][0] * temp[0][1] + temp[0][1] * temp[1][1];
+    m[1][0] = temp[1][0] * temp[0][0] + temp[1][1] * temp[1][0];
+    m[1][1] = temp[1][0] * temp[0][1] + temp[1][1] * temp[1][1];
+}
 
 pub fn fib(n: i32) -> i32 {
     // TODO: Implement the logic to calculate the nth Fibonacci number using matrix exponentiation
-    let mut res_matrix = arr2(&[[1, 0], [0, 1]]);
+    let mut res_matrix = vec![vec![1, 0], vec![0, 1]];
     let mut i: i32 = 0;
-    let mut temp_matrix = arr2(&[[0, 1], [1, 1]]);
+    let mut temp_matrix = vec![vec![0, 1], vec![1, 1]];
     let mut m = 1 << i;
     while m <= n {
         if m & n != 0 {
-            res_matrix = res_matrix.dot(&temp_matrix);
+            ma(&mut res_matrix, &temp_matrix)
         }
-        temp_matrix = temp_matrix.dot(&temp_matrix);
+        mb(&mut temp_matrix);
         i += 1;
         m = 1 << i;
     }
-    let res = res_matrix.dot(&arr2(&[[0], [1]]));
-    res[[0, 0]]
+    res_matrix[0][1]
 }
 
 #[cfg(test)]

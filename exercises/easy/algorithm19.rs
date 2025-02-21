@@ -9,18 +9,25 @@
     Hint: Consider using matrix exponentiation to solve the problem in O(log n) time complexity.
 */
 
-use std::f32::consts;
+use ndarray::arr2;
 use std::fmt::{self, Display, Formatter};
 
 pub fn fib(n: i32) -> i32 {
     // TODO: Implement the logic to calculate the nth Fibonacci number using matrix exponentiation
-    if n <= 1 {
-        n
-    } else if n == 2 {
-        1
-    } else {
-        fib(n - 1) + fib(n - 2)
+    let mut res_matrix = arr2(&[[1, 0], [0, 1]]);
+    let mut i: i32 = 0;
+    let mut temp_matrix = arr2(&[[0, 1], [1, 1]]);
+    let mut m = 1 << i;
+    while m <= n {
+        if m & n != 0 {
+            res_matrix = res_matrix.dot(&temp_matrix);
+        }
+        temp_matrix = temp_matrix.dot(&temp_matrix);
+        i += 1;
+        m = 1 << i;
     }
+    let res = res_matrix.dot(&arr2(&[[0], [1]]));
+    res[[0, 0]]
 }
 
 #[cfg(test)]

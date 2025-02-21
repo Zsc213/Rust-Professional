@@ -47,65 +47,60 @@
     },
     {
       "name": "algorithm10.rs",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 1
     },
     {
       "name": "algorithm11.rs",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 1
     },
     {
       "name": "algorithm12.rs",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 1
     },
     {
       "name": "algorithm13.rs",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 1
     },
     {
       "name": "algorithm14.rs",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 1
     },
     {
       "name": "algorithm15.rs",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 1
     },
     {
       "name": "algorithm16.rs",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 1
     },
     {
       "name": "algorithm17.rs",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 1
     },
     {
       "name": "algorithm18.rs",
-      "result": false,
-      "score": 0
+      "result": true,
+      "score": 1
     },
     {
       "name": "algorithm19.rs",
       "result": false,
       "score": 0
-    },
-    {
-      "name": "algorithm20.rs",
-      "result": false,
-      "score": 0
     }
   ],
   "statistics": {
-    "total_exercises": 20,
-    "total_successes": 9,
-    "total_failures": 11,
-    "total_score": 9,
-    "total_time": 38
+    "total_exercises": 19,
+    "total_successes": 18,
+    "total_failures": 1,
+    "total_score": 18,
+    "total_time": 12
   }
 }

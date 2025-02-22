@@ -1,0 +1,1 @@
+/home/zsc/Project/rust/Rust-Professional/exercises/normal/solution2/target/debug/solution2: /home/zsc/Project/rust/Rust-Professional/exercises/normal/solution2/src/converter.rs /home/zsc/Project/rust/Rust-Professional/exercises/normal/solution2/src/main.rs

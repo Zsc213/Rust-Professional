@@ -12,8 +12,10 @@ pub fn goldbach_conjecture() -> String {
             let mut flag = false;
             for j in 0..primes_vec.len() {
                 let t = (((i - primes_vec[j]) / 2) as f64).sqrt();
+                // 判断能否完整开方
                 if t.trunc() == t {
                     flag = true;
+                    break;
                 }
             }
             if !flag {

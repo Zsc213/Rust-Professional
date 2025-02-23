@@ -5,6 +5,9 @@ edition = "2021"
 
 [dependencies]
 
+[dependencies.mathru]
+version = "0.15"
+
 [[test]]
 name = "tests"
 path = "src/tests.rs"

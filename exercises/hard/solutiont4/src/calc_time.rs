@@ -1,6 +1,10 @@
 pub fn time_info(time: &str) -> String {
     let month_days: Vec<u32> = vec![31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     let month_days_com: Vec<u32> = vec![0, 1, 0, 0, 0, 1, 1, 2, 3, 3, 4, 4];
+    let lunar_year: Vec<u32> = vec![
+        31, 50, 39, 29, 47, 35, 25, 44, 33, 22, 41, 30, 49, 37, 26, 45, 34, 23, 42, 32, 51, 39, 28,
+        47, 36, 24, 44, 33, 23, 41, 30, 48, 37, 26, 45, 35, 24, 42,
+    ];
     let mut res_str: Vec<String> = vec![];
     let parts: Vec<String> = time.split('-').map(|s| s.to_string()).collect();
     let year = parts[0].parse::<u32>().unwrap();

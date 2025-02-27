@@ -43,17 +43,37 @@ type CityGroups = HashMap<String, MergedMap>;
 fn merge_link(link_record: &mut Vec<Vec<usize>>, n: usize) -> usize {
     let mut count: usize = 0;
     let mut m: Vec<usize> = vec![0; n];
-    link_record.sort_by(|a, b| a[0].cmp(&b[0]));
+    //link_record.sort_by(|a, b| a[0].cmp(&b[0]));
     for i in 0..link_record.len() {
-        if link_record[i][0] == link_record[i][1] {
+        if i > 0 && link_record[i] == link_record[i - 1] {
             continue;
-        } else if m[link_record[i][0]] == 0 {
+        } else if link_record[i][0] == link_record[i][1] && m[link_record[i][0]] != 0 {
+            continue;
+        } else if m[link_record[i][0]] == 0 && m[link_record[i][1]] == 0 {
             // 初始组
             count += 1;
             m[link_record[i][0]] = count.clone();
             m[link_record[i][1]] = count.clone();
-        } else {
+        } else if m[link_record[i][1]] == 0 {
             m[link_record[i][1]] = m[link_record[i][0]].clone();
+        } else if m[link_record[i][0]] == 0 {
+            m[link_record[i][0]] = m[link_record[i][1]].clone();
+        } else if m[link_record[i][1]] == m[link_record[i][0]] {
+            continue;
+        } else if m[link_record[i][0]] > m[link_record[i][1]] {
+            for j in 0..m.len() {
+                if m[j] == link_record[i][0] {
+                    m[j] = link_record[i][1].clone();
+                }
+            }
+            count -= 1;
+        } else {
+            for j in 0..m.len() {
+                if m[j] == link_record[i][1] {
+                    m[j] = link_record[i][0].clone();
+                }
+            }
+            count -= 1;
         }
     }
     count

@@ -19,11 +19,8 @@ mod tests {
         // 时间超1s，判定不合格
         let mut total_score = 0.0;
 
-        if duration <= Duration::from_millis(500) {
-            total_score += 10.0;
-        }
-        if result == TEST_CASE {
-            total_score += 90.0;
+        if duration <= Duration::from_millis(500) && result == TEST_CASE {
+            total_score += 100.0;
         }
 
         println!("Total score: {:.2}", total_score);

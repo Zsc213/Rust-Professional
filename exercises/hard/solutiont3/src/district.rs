@@ -81,7 +81,7 @@ fn merge_link(link_record: &mut Vec<Vec<usize>>, n: usize) -> usize {
 
 pub fn count_provinces() -> String {
     let json_content: CityGroups = {
-        let file_json = fs::read_to_string("./district.json").expect("read error");
+        let file_json = fs::read_to_string("district.json").expect("read error");
         serde_json::from_str::<CityGroups>(&file_json).expect("serialize error")
     };
     let mut res_str: Vec<String> = vec![String::new(); 5];
